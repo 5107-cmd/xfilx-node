@@ -20,7 +20,7 @@ const filteredVideos = catchAsync(async (req, res) => {
         if (!videos) {
             throw new ApiError(httpStatus.NOT_FOUND)
         };
-        res.send(videos);
+        res.send({videos:videos});
     }
 
     else {
@@ -43,7 +43,7 @@ const filteredVideos = catchAsync(async (req, res) => {
             filter.contentRating = temp;
         };
         let videos = await videoService.filteredVideos(filter, sortingBy);
-        res.send(videos)
+        res.send({videos: videos})
     }
 })
 
@@ -81,7 +81,7 @@ const updateViews = catchAsync(async (req, res) => {
 const postingVideo = catchAsync(async (req, res) => {
     try {
         let video = await videoService.postingVideo(req.body);
-        return video;
+        res.status(201).send(video)
     } catch (err) {
         console.log(err);
     }
